@@ -42,7 +42,10 @@
 
 /*****************************************************************************/
 
+#define NO_32BPP
+
 // numbers of buffers for page flipping
+#define NO_PAGE_FLIPPING
 #if defined(NO_PAGE_FLIPPING)
 // page-flipping is buggy on some devices
 #define NUM_BUFFERS 1
