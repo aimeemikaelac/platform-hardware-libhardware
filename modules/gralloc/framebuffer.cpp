@@ -61,6 +61,8 @@ struct fb_context_t {
     framebuffer_device_t  device;
 };
 
+size_t g_xres, g_xres_virtual;
+
 /*****************************************************************************/
 
 static int fb_setSwapInterval(struct framebuffer_device_t* dev,
@@ -169,6 +171,9 @@ int mapFrameBufferLocked(struct private_module_t* module)
     struct fb_var_screeninfo info;
     if (ioctl(fd, FBIOGET_VSCREENINFO, &info) == -1)
         return -errno;
+
+    g_xres = info.xres;
+    g_xres_virtual = info.xres_virtual;
 
     info.reserved[0] = 0;
     info.reserved[1] = 0;

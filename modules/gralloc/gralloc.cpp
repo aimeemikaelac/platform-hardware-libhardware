@@ -39,6 +39,8 @@
 
 /*****************************************************************************/
 
+extern size_t g_xres, g_xres_virtual;
+
 struct gralloc_context_t {
     alloc_device_t  device;
     /* our private data here */
@@ -224,6 +226,13 @@ static int gralloc_alloc(alloc_device_t* dev,
         default:
             return -EINVAL;
     }
+
+    // Hack: if width is xres, then assume this is the whole screen, and use
+    // xres_virtual instead.  This allows stride to be set correctly when
+    // stride != width.
+    if (w == g_xres)
+        w = g_xres_virtual;
+
     size_t bpr = (w*bpp + (align-1)) & ~(align-1);
     size = bpr * h;
     stride = bpr / bpp;
